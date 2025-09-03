@@ -209,8 +209,8 @@ export class GdmLiveAudioVisuals3D extends LitElement {
 
     const bloomPass = new UnrealBloomPass(
       new THREE.Vector2(window.innerWidth, window.innerHeight),
-      2,
-      0.5,
+      2.5, // Increased strength for a more intense glow
+      0.8, // Increased radius to make the glow spread further
       0,
     );
     this.bloomPass = bloomPass;
@@ -274,7 +274,7 @@ export class GdmLiveAudioVisuals3D extends LitElement {
     backdropMaterial.uniforms.rand.value = Math.random() * 10000;
     backdropMaterial.uniforms.idleFactor.value = idleFactor;
     particleMaterial.uniforms.uIdleFactor.value = idleFactor;
-    this.bloomPass.strength = 2.0 * idleFactor;
+    this.bloomPass.strength = 2.5 * idleFactor;
 
     const outputData = this.outputAnalyser.data;
     const avgOutput =
@@ -311,7 +311,8 @@ export class GdmLiveAudioVisuals3D extends LitElement {
   }
 
   protected firstUpdated() {
-    this.canvas = this.renderRoot.querySelector('canvas') as HTMLCanvasElement;
+    // FIX: Property 'renderRoot' does not exist on type 'GdmLiveAudioVisuals3D'. Use 'shadowRoot' instead.
+    this.canvas = this.shadowRoot!.querySelector('canvas') as HTMLCanvasElement;
     this.init();
   }
 

@@ -102,7 +102,8 @@ export class GdmLiveAudioVisuals extends LitElement {
   }
 
   protected firstUpdated() {
-    this.canvas = this.renderRoot.querySelector('canvas')!;
+    // FIX: Property 'renderRoot' does not exist on type 'GdmLiveAudioVisuals'. Use 'shadowRoot' instead.
+    this.canvas = this.shadowRoot!.querySelector('canvas')!;
     this.canvas.width = 400;
     this.canvas.height = 400;
     this.canvasCtx = this.canvas.getContext('2d')!;
