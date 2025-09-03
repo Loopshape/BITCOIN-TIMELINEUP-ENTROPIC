@@ -4,15 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Unified Processing Tool</title>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="layout.css">
+    <link rel="stylesheet" href="components.css">
 <script type="importmap">
 {
   "imports": {
-    "three/": "https://aistudiocdn.com/three@^0.179.1/",
     "three": "https://aistudiocdn.com/three@^0.179.1",
+    "three/": "https://aistudiocdn.com/three@^0.179.1/",
     "@google/genai": "https://aistudiocdn.com/@google/genai@^1.16.0",
     "lit/": "https://aistudiocdn.com/lit@^3.3.1/",
-    "lit": "https://aistudiocdn.com/lit@^3.3.1"
+    "lit": "https://aistudiocdn.com/lit@^3.3.1",
+    "lit-element/": "https://aistudiocdn.com/lit-element@^4.2.1/",
+    "lit-element": "https://aistudiocdn.com/lit-element@^4.2.1",
+    "gsap": "https://aistudiocdn.com/gsap@^3.12.5"
   }
 }
 </script>
@@ -27,110 +33,198 @@
             </div>
             <div class="title-text">AI Core Engine GUI</div>
         </div>
-        <div class="app-container">
-            <aside id="sidebar">
-                <div class="sidebar-header">MODES</div>
-                <button class="sidebar-button active" data-mode="gemini">
-                    <span class="icon">🔹</span> Gemini Prompt
-                </button>
-                <button class="sidebar-button" data-mode="file">
-                    <span class="icon">📄</span> File Processor
-                </button>
-                <button class="sidebar-button" data-mode="batch">
-                    <span class="icon">🗂️</span> Batch Processor
-                </button>
-                <button class="sidebar-button" data-mode="pipeline">
-                     <span class="icon">🔗</span> Pipeline
-                </button>
-                <button class="sidebar-button" data-mode="env">
-                    <span class="icon">🌍</span> Env Scanner
-                </button>
-                <button class="sidebar-button" data-mode="agi">
-                    <span class="icon">👁️</span> AGI Watcher
-                </button>
-            </aside>
-            <main id="main-content">
-                <!-- Gemini Prompt Panel -->
-                <div class="content-panel active" id="panel-gemini">
-                    <h2>Gemini Prompt Interface</h2>
-                    <p>Interact with the Gemini model. Enter your prompt below and get a real-time response.</p>
-                    <div class="form-group">
-                        <textarea id="gemini-prompt" placeholder="Enter your prompt here... e.g., 'Explain quantum computing in simple terms'"></textarea>
-                    </div>
-                    <button id="gemini-run">Execute Prompt</button>
-                    <div class="response-area">
-                        <h3>Response</h3>
-                        <pre id="gemini-response"></pre>
-                    </div>
+        <div id="visual-panel">
+            <div class="visual-header">SYSTEM CORE VISUALIZER</div>
+            <div class="visual-body">
+                <div class="visual-controls">
+                    <details open>
+                        <summary>Color Scheme</summary>
+                        <div class="radio-group">
+                            <label><input type="radio" name="color" value="cyan" checked> Cyan</label>
+                            <label><input type="radio" name="color" value="magenta"> Magenta</label>
+                            <label><input type="radio" name="color" value="green"> Green</label>
+                        </div>
+                    </details>
+                    <details open>
+                        <summary>Animation Speed</summary>
+                        <div class="radio-group">
+                            <label><input type="radio" name="speed" value="0.5"> Slow</label>
+                            <label><input type="radio" name="speed" value="1" checked> Normal</label>
+                            <label><input type="radio" name="speed" value="2"> Fast</label>
+                        </div>
+                    </details>
                 </div>
-
-                <!-- File Processor Panel -->
-                <div class="content-panel" id="panel-file">
-                    <h2>File Processor</h2>
-                    <p>Process single or multiple files. Backups will be created automatically.</p>
-                    <div class="form-group">
-                        <label for="file-input">File Path(s)</label>
-                        <input type="text" id="file-input" placeholder="/path/to/your/file.txt">
-                    </div>
-                    <button class="execute-btn" data-action="file">Process Files</button>
+                <div class="svg-container">
+                    <svg id="visual-svg" viewBox="0 0 480 300" preserveAspectRatio="xMidYMid meet">
+                        <defs>
+                            <filter id="glow">
+                                <feGaussianBlur stdDeviation="2.5" result="coloredBlur"></feGaussianBlur>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"></feMergeNode>
+                                    <feMergeNode in="SourceGraphic"></feMergeNode>
+                                </feMerge>
+                            </filter>
+                            <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(90, 93, 143, 0.2)" stroke-width="1"></path>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#grid)"></rect>
+                        <g id="svg-core-group" filter="url(#glow)">
+                             <!-- Isometric Cube -->
+                            <path class="svg-core-element" d="M 240 100 l 60 -30 v 60 l -60 30 Z" fill="rgba(0, 255, 255, 0.2)" stroke="#00ffff" stroke-width="1.5"></path>
+                            <path class="svg-core-element" d="M 240 100 l -60 -30 v 60 l 60 30 Z" fill="rgba(0, 255, 255, 0.3)" stroke="#00ffff" stroke-width="1.5"></path>
+                            <path class="svg-core-element" d="M 180 130 l 60 30 l 60 -30 l -60 -30 Z" fill="rgba(0, 255, 255, 0.4)" stroke="#00ffff" stroke-width="1.5"></path>
+                             <!-- Floating shards -->
+                            <path class="svg-shard" d="M 150 50 l 20 -5 l 5 20 Z" fill="rgba(0, 255, 255, 0.3)" stroke="#00ffff" stroke-width="1"></path>
+                            <path class="svg-shard" d="M 320 200 l -30 10 l 10 -25 Z" fill="rgba(0, 255, 255, 0.3)" stroke="#00ffff" stroke-width="1"></path>
+                            <path class="svg-shard" d="M 350 80 l 10 10 l -5 -20 Z" fill="rgba(0, 255, 255, 0.3)" stroke="#00ffff" stroke-width="1"></path>
+                            <path class="svg-shard" d="M 100 240 l 15 5 l -5 -15 Z" fill="rgba(0, 255, 255, 0.3)" stroke="#00ffff" stroke-width="1"></path>
+                        </g>
+                        <polyline id="lightning" points="" fill="none" stroke="rgba(255, 255, 255, 0.8)" stroke-width="2" filter="url(#glow)"></polyline>
+                    </svg>
                 </div>
-
-                <!-- Batch Processor Panel -->
-                <div class="content-panel" id="panel-batch">
-                    <h2>Batch Processor</h2>
-                    <p>Process files matching a specific pattern.</p>
-                    <div class="form-group">
-                        <label for="batch-input">File Pattern</label>
-                        <input type="text" id="batch-input" placeholder="/path/to/project/*.js">
-                    </div>
-                    <button class="execute-btn" data-action="batch">Process Batch</button>
-                </div>
-
-                <!-- Pipeline Panel -->
-                <div class="content-panel" id="panel-pipeline">
-                    <h2>Processing Pipeline</h2>
-                    <p>Scrape URLs or process files in a sequence. Separate entries with a colon (:).</p>
-                    <div class="form-group">
-                        <label for="pipeline-input">URLs or File Paths</label>
-                        <input type="text" id="pipeline-input" placeholder="https://example.com:/path/to/file.log">
-                    </div>
-                    <button class="execute-btn" data-action="pipeline">Run Pipeline</button>
-                </div>
-
-                <!-- Env Scanner Panel -->
-                <div class="content-panel" id="panel-env">
-                    <h2>Environment Scanner</h2>
-                    <p>Scan and display current environment variables and system information.</p>
-                    <button class="execute-btn" data-action="env">Scan Environment</button>
-                    <div class="response-area">
-                        <pre id="env-output"></pre>
-                    </div>
-                </div>
-                
-                <!-- AGI Watcher Panel -->
-                <div class="content-panel" id="panel-agi">
-                    <h2>AGI File System Watcher</h2>
-                    <p>Monitor a folder for file changes matching a pattern.</p>
-                    <div class="form-group">
-                        <label for="agi-folder">Folder to Watch</label>
-                        <input type="text" id="agi-folder" placeholder="/path/to/watch">
-                    </div>
-                     <div class="form-group">
-                        <label for="agi-pattern">File Pattern</label>
-                        <input type="text" id="agi-pattern" placeholder="*.*">
-                    </div>
-                    <button class="execute-btn" data-action="agi">Start Watching</button>
-                </div>
-
-            </main>
+            </div>
         </div>
-        <footer id="log-panel">
+        <aside id="sidebar">
+            <div class="sidebar-header">MODES</div>
+            <button class="sidebar-button active" data-mode="gemini">
+                <span class="icon">🔹</span> Gemini Prompt
+            </button>
+            <button class="sidebar-button" data-mode="file">
+                <span class="icon">📄</span> File Processor
+            </button>
+            <button class="sidebar-button" data-mode="batch">
+                <span class="icon">🗂️</span> Batch Processor
+            </button>
+            <button class="sidebar-button" data-mode="pipeline">
+                 <span class="icon">🔗</span> Pipeline
+            </button>
+            <button class="sidebar-button" data-mode="env">
+                <span class="icon">🌍</span> Env Scanner
+            </button>
+            <button class="sidebar-button" data-mode="agi">
+                <span class="icon">👁️</span> AGI Watcher
+            </button>
+            <button class="sidebar-button" data-mode="visualizer">
+                <span class="icon">🔊</span> Audio Visualizer
+            </button>
+            <button class="sidebar-button" data-mode="ghosting">
+                <span class="icon">👻</span> Ghosting Protocol
+            </button>
+        </aside>
+        <main id="main-content">
+            <!-- Gemini Prompt Panel -->
+            <div class="content-panel active" id="panel-gemini">
+                <h2>Gemini Prompt Interface</h2>
+                <p>Interact with the Gemini model. Enter your prompt below and get a real-time response.</p>
+                <div class="form-group">
+                    <textarea id="gemini-prompt" placeholder="Enter your prompt here... e.g., 'Explain quantum computing in simple terms'"></textarea>
+                </div>
+                <button id="gemini-run">Execute Prompt</button>
+                <div class="response-area">
+                    <h3>Response</h3>
+                    <pre id="gemini-response"></pre>
+                </div>
+            </div>
+
+            <!-- File Processor Panel -->
+            <div class="content-panel" id="panel-file">
+                <h2>File Processor</h2>
+                <p>Process single or multiple files. Backups will be created automatically.</p>
+                <div class="form-group">
+                    <label for="file-input">File Path(s)</label>
+                    <input type="text" id="file-input" placeholder="/path/to/your/file.txt">
+                </div>
+                <button class="execute-btn" data-action="file">Process Files</button>
+            </div>
+
+            <!-- Batch Processor Panel -->
+            <div class="content-panel" id="panel-batch">
+                <h2>Batch Processor</h2>
+                <p>Process files matching a specific pattern.</p>
+                <div class="form-group">
+                    <label for="batch-input">File Pattern</label>
+                    <input type="text" id="batch-input" placeholder="/path/to/project/*.js">
+                </div>
+                <button class="execute-btn" data-action="batch">Process Batch</button>
+            </div>
+
+            <!-- Pipeline Panel -->
+            <div class="content-panel" id="panel-pipeline">
+                <h2>Processing Pipeline</h2>
+                <p>Scrape URLs or process files in a sequence. Separate entries with a colon (:).</p>
+                <div class="form-group">
+                    <label for="pipeline-input">URLs or File Paths</label>
+                    <input type="text" id="pipeline-input" placeholder="https://example.com:/path/to/file.log">
+                </div>
+                <button class="execute-btn" data-action="pipeline">Run Pipeline</button>
+            </div>
+
+            <!-- Env Scanner Panel -->
+            <div class="content-panel" id="panel-env">
+                <h2>Environment Scanner</h2>
+                <p>Scan and display current environment variables and system information.</p>
+                <button class="execute-btn" data-action="env">Scan Environment</button>
+                <div class="response-area">
+                    <pre id="env-output"></pre>
+                </div>
+            </div>
+            
+            <!-- AGI Watcher Panel -->
+            <div class="content-panel" id="panel-agi">
+                <h2>AGI File System Watcher</h2>
+                <p>Monitor a folder for file changes matching a pattern.</p>
+                <div class="form-group">
+                    <label for="agi-folder">Folder to Watch</label>
+                    <input type="text" id="agi-folder" placeholder="/path/to/watch">
+                </div>
+                 <div class="form-group">
+                    <label for="agi-pattern">File Pattern</label>
+                    <input type="text" id="agi-pattern" placeholder="*.*">
+                </div>
+                <button class="execute-btn" data-action="agi">Start Watching</button>
+            </div>
+            
+            <!-- Audio Visualizer Panel -->
+            <div class="content-panel" id="panel-visualizer">
+                <h2>Audio Stream Visualizer</h2>
+                <p>Real-time visualization of the microphone input stream. Please allow microphone access when prompted.</p>
+                <div id="visualizer-container">
+                    <gdm-live-audio-visuals></gdm-live-audio-visuals>
+                </div>
+            </div>
+
+            <!-- Ghosting Protocol Panel -->
+            <div class="content-panel" id="panel-ghosting">
+                <h2>Ghosting Protocol</h2>
+                <p>Capture and analyze transient system echoes—the ghosts of past operations.</p>
+                <div id="ghosting-container">
+                    <div id="ghosting-canvas-container"></div>
+                    <div id="ghosting-controls">
+                        <button id="capture-echo-btn">Capture Last Echo</button>
+                        <div class="form-group">
+                            <label for="hold-duration-slider">Hold Duration</label>
+                            <div class="slider-wrapper">
+                                <input type="range" id="hold-duration-slider" min="1" max="30" value="5">
+                                <span id="hold-duration-value">5s</span>
+                            </div>
+                        </div>
+                        <div class="response-area" id="echo-analysis-area">
+                            <h3>Echo Analysis</h3>
+                            <pre id="echo-analysis-output"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+        <div id="log-panel">
             <div class="log-header">
                 <span>SYSTEM LOG</span>
                 <button id="clear-log-btn" title="Clear Log">✖</button>
             </div>
             <div id="log-content"></div>
-        </footer>
+        </div>
     </div>
     <script type="module" src="index.tsx"></script>
 </body>

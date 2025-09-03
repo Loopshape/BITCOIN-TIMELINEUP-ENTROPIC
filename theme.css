@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Inter:wght@400;600&display=swap');
+
+:root {
+    --bg-color-dark: #0a0a14;
+    --bg-color-medium: rgba(26, 29, 46, 0.5); /* Semi-transparent */
+    --bg-color-light: rgba(58, 61, 97, 0.4); /* Semi-transparent */
+    --border-color: rgba(90, 93, 143, 0.7);
+    --glass-bg: rgba(10, 10, 20, 0.6);
+
+    --text-color-primary: #e0e0e0;
+    --text-color-secondary: #a0a0d0;
+    --font-primary: 'Roboto Mono', 'Consolas', 'Menlo', monospace;
+    --font-secondary: 'Inter', 'Helvetica Neue', sans-serif;
+
+    /* Neon Colors */
+    --accent-color-cyan: #00ffff;
+    --accent-color-magenta: #ff00ff;
+    --accent-color-green: #00ff88;
+    --accent-color-yellow: #f0ff88;
+    --accent-color-red: #ff4444;
+
+    /* Glow Effects */
+    --glow-cyan: 0 0 5px var(--accent-color-cyan), 0 0 10px var(--accent-color-cyan);
+    --glow-magenta: 0 0 5px var(--accent-color-magenta), 0 0 10px var(--accent-color-magenta);
+    --glow-green: 0 0 5px var(--accent-color-green), 0 0 10px var(--accent-color-green);
+    --glow-red: 0 0 5px var(--accent-color-red), 0 0 10px var(--accent-color-red);
+    --glow-text: 0 0 2px rgba(255,255,255,0.7), 0 0 5px var(--accent-color-cyan);
+
+    /* Transitions */
+    --transition-fast: all 0.2s ease-in-out;
+}
+
+body {
+    background-color: var(--bg-color-dark);
+    font-family: var(--font-secondary);
+    color: var(--text-color-primary);
+    background-image: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=2071&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    overflow: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.3);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-color-cyan);
+}
+
+/* Text Selection */
+::selection {
+    background-color: var(--accent-color-magenta);
+    color: var(--bg-color-dark);
+    text-shadow: none;
+}

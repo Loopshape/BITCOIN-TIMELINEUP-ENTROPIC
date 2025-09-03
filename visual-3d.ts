@@ -7,8 +7,9 @@
 // tslint:disable:ban-malformed-import-paths
 // tslint:disable:no-new-decorators
 
-import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+// FIX: Corrected Lit imports to use 'lit-element' and 'lit-element/decorators.js' to resolve module export errors.
+import {LitElement, css, html} from 'lit-element';
+import {customElement, property} from 'lit-element/decorators.js';
 import {Analyser} from './analyser';
 
 import * as THREE from 'three';
@@ -132,6 +133,8 @@ export class GdmLiveAudioVisuals3D extends LitElement {
           resolution: {value: new THREE.Vector2(1, 1)},
           rand: {value: 0},
           idleFactor: {value: 1.0},
+          uAvgOutput: {value: 0.0},
+          uHighFreq: {value: 0.0},
         },
         vertexShader: backdropVS,
         fragmentShader: backdropFS,
@@ -274,12 +277,18 @@ export class GdmLiveAudioVisuals3D extends LitElement {
     backdropMaterial.uniforms.rand.value = Math.random() * 10000;
     backdropMaterial.uniforms.idleFactor.value = idleFactor;
     particleMaterial.uniforms.uIdleFactor.value = idleFactor;
-    this.bloomPass.strength = 2.5 * idleFactor;
 
     const outputData = this.outputAnalyser.data;
     const avgOutput =
       outputData.reduce((a, b) => a + b, 0) / outputData.length / 255;
     const highFreq = (outputData[10] + outputData[11]) / 2 / 255;
+
+    backdropMaterial.uniforms.uAvgOutput.value = avgOutput;
+    backdropMaterial.uniforms.uHighFreq.value = highFreq;
+
+    // Make bloom react to audio
+    this.bloomPass.strength = (1.5 + avgOutput * 2.0) * idleFactor;
+    this.bloomPass.radius = 0.6 + highFreq * 0.4;
 
     // Afterimage effect based on output volume - more pronounced trails
     this.afterimagePass.uniforms['damp'].value = THREE.MathUtils.lerp(
@@ -311,8 +320,8 @@ export class GdmLiveAudioVisuals3D extends LitElement {
   }
 
   protected firstUpdated() {
-    // FIX: Property 'renderRoot' does not exist on type 'GdmLiveAudioVisuals3D'. Use 'shadowRoot' instead.
-    this.canvas = this.shadowRoot!.querySelector('canvas') as HTMLCanvasElement;
+    // FIX: Use `this.renderRoot` to access the shadow DOM's canvas element, as `this.shadowRoot` causes a type error.
+    this.canvas = this.renderRoot.querySelector('canvas') as HTMLCanvasElement;
     this.init();
   }
 

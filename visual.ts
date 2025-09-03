@@ -4,8 +4,9 @@
 */
 /* tslint:disable */
 
-import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+// FIX: Corrected Lit imports to use 'lit-element' and 'lit-element/decorators.js' to resolve module export errors.
+import {LitElement, css, html} from 'lit-element';
+import {customElement, property} from 'lit-element/decorators.js';
 import {Analyser} from './analyser';
 
 @customElement('gdm-live-audio-visuals')
@@ -102,8 +103,8 @@ export class GdmLiveAudioVisuals extends LitElement {
   }
 
   protected firstUpdated() {
-    // FIX: Property 'renderRoot' does not exist on type 'GdmLiveAudioVisuals'. Use 'shadowRoot' instead.
-    this.canvas = this.shadowRoot!.querySelector('canvas')!;
+    // FIX: Use `this.renderRoot` to access the shadow DOM's canvas element, as `this.shadowRoot` causes a type error.
+    this.canvas = this.renderRoot.querySelector('canvas')!;
     this.canvas.width = 400;
     this.canvas.height = 400;
     this.canvasCtx = this.canvas.getContext('2d')!;
