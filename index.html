@@ -3,98 +3,274 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bitcoin Timestamp Entropy</title>
+    <title>AI Unified Processing Tool</title>
+    <link rel="stylesheet" href="index.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+        body {
+            background: linear-gradient(135deg, #0a0a2a 0%, #0d1b2a 100%);
+            color: #00ffcc;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            border: 1px solid #2b7a78;
+            border-radius: 10px;
+            padding: 20px;
+            background: rgba(13, 27, 42, 0.8);
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #2b7a78;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #ff9e01;
+            text-shadow: 0 0 10px rgba(255, 158, 1, 0.5);
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #8ac6d1;
+            font-size: 1.2rem;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .card {
+            background: rgba(10, 25, 47, 0.7);
+            border: 1px solid #2b7a78;
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.3);
+        }
+        .card h2 {
+            color: #ff9e01;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            border-bottom: 1px solid #2b7a78;
+            padding-bottom: 8px;
+        }
+        .value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00ffcc;
+            text-shadow: 0 0 5px rgba(0, 255, 204, 0.5);
+            margin: 10px 0;
+            word-break: break-all;
+        }
+        .label {
+            color: #8ac6d1;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .visualization {
+            background: rgba(10, 25, 47, 0.7);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid #2b7a78;
+        }
+        .visualization h2 {
+            color: #ff9e01;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        #entropyCanvas {
+            width: 100%;
+            height: 200px;
+            background: #0a192f;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .code-block {
+            background: #0a192f;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            border-left: 3px solid #ff9e01;
+        }
+        code {
+            color: #8ac6d1;
+            font-family: 'Courier New', monospace;
+        }
+        .comment {
+            color: #5e9e9f;
+        }
+        .keyword {
+            color: #ff9e01;
+        }
+        .function {
+            color: #00ffcc;
+        }
+        .string {
+            color: #8ac6d1;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #5e9e9f;
+            font-size: 0.9rem;
+        }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+        .bitcoin-symbol {
+            color: #ff9e01;
+            font-weight: bold;
+        }
+    </style>
 <script type="importmap">
 {
   "imports": {
-    "lit/": "https://aistudiocdn.com/lit@^3.3.1/",
-    "lit": "https://aistudiocdn.com/lit@^3.3.1",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.16.0",
     "three/": "https://aistudiocdn.com/three@^0.179.1/",
-    "three": "https://aistudiocdn.com/three@^0.179.1"
+    "three": "https://aistudiocdn.com/three@^0.179.1",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.16.0",
+    "lit/": "https://aistudiocdn.com/lit@^3.3.1/",
+    "lit": "https://aistudiocdn.com/lit@^3.3.1"
   }
 }
 </script>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Bitcoin Timestamp Entropy</h1>
-            <p class="subtitle">Cryptographic Seed Generation from Temporal Data</p>
-        </header>
-
-        <div class="grid">
-            <div class="card">
-                <h2>Current Timestamp</h2>
-                <p class="label">MMDDYYHHMMSS Format</p>
-                <p id="timestamp" class="value pulse">...</p>
+    <div class="window">
+        <div class="title-bar">
+            <div class="controls">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
             </div>
-            <div class="card">
-                <h2>SHA-256 Hash</h2>
-                <p class="label">Derived from Timestamp</p>
-                <p id="hash" class="value">...</p>
-            </div>
-            <div class="card">
-                <h2>Entropy Value</h2>
-                <p class="label">64-bit Hexadecimal</p>
-                <p id="entropy" class="value">...</p>
-            </div>
-            <div class="card">
-                <h2>Entropy Strength</h2>
-                <p class="label">Based on Bit Distribution</p>
-                <div class="strength-meter-container">
-                    <div id="strength-meter-bar" class="strength-meter-bar"></div>
+            <div class="title-text">AI Core Engine GUI</div>
+        </div>
+        <div class="app-container">
+            <aside id="sidebar">
+                <div class="sidebar-header">MODES</div>
+                <button class="sidebar-button active" data-mode="gemini">
+                    <span class="icon">🔹</span> Gemini Prompt
+                </button>
+                <button class="sidebar-button" data-mode="file">
+                    <span class="icon">📄</span> File Processor
+                </button>
+                <button class="sidebar-button" data-mode="batch">
+                    <span class="icon">🗂️</span> Batch Processor
+                </button>
+                <button class="sidebar-button" data-mode="pipeline">
+                     <span class="icon">🔗</span> Pipeline
+                </button>
+                <button class="sidebar-button" data-mode="env">
+                    <span class="icon">🌍</span> Env Scanner
+                </button>
+                <button class="sidebar-button" data-mode="agi">
+                    <span class="icon">👁️</span> AGI Watcher
+                </button>
+            </aside>
+            <main id="main-content">
+                <!-- Gemini Prompt Panel -->
+                <div class="content-panel active" id="panel-gemini">
+                    <h2>Gemini Prompt Interface</h2>
+                    <p>Interact with the Gemini model. Enter your prompt below and get a real-time response.</p>
+                    <div class="form-group">
+                        <textarea id="gemini-prompt" placeholder="Enter your prompt here... e.g., 'Explain quantum computing in simple terms'"></textarea>
+                    </div>
+                    <button id="gemini-run">Execute Prompt</button>
+                    <div class="response-area">
+                        <h3>Response</h3>
+                        <pre id="gemini-response"></pre>
+                    </div>
                 </div>
-                <p id="strength-value" class="value" style="text-align: center; margin-top: 10px;">...</p>
-            </div>
-        </div>
 
-        <div class="visualization">
-            <h2>Entropy Visualization</h2>
-            <canvas id="entropyCanvas"></canvas>
-            <p class="label">Randomness Amplitude Over Time</p>
-        </div>
+                <!-- File Processor Panel -->
+                <div class="content-panel" id="panel-file">
+                    <h2>File Processor</h2>
+                    <p>Process single or multiple files. Backups will be created automatically.</p>
+                    <div class="form-group">
+                        <label for="file-input">File Path(s)</label>
+                        <input type="text" id="file-input" placeholder="/path/to/your/file.txt">
+                    </div>
+                    <button class="execute-btn" data-action="file">Process Files</button>
+                </div>
 
-        <div class="code-block">
-            <code>
-                <span class="comment">// Bitcoin timestamp entropy generation</span><br>
-                <span class="keyword">async function</span> <span class="function">generateEntropy</span>(timestamp) {<br>
-                &nbsp;&nbsp;<span class="keyword">const</span> hash = <span class="keyword">await</span> sha256(timestamp);<br>
-                &nbsp;&nbsp;<span class="keyword">const</span> entropy = hash.slice(0, 16); <span class="comment">// First 64 bits of the hash</span><br>
-                &nbsp;&nbsp;<span class="keyword">return</span> <span class="string">"0x"</span> + entropy.toUpperCase();<br>
-                }<br><br>
-                <span class="keyword">async function</span> <span class="function">sha256</span>(data) {<br>
-                &nbsp;&nbsp;<span class="comment">// Real cryptographic hash using Web Crypto API</span><br>
-                &nbsp;&nbsp;<span class="keyword">const</span> msgBuffer = <span class="keyword">new</span> TextEncoder().encode(data);<br>
-                &nbsp;&nbsp;<span class="keyword">const</span> hashBuffer = <span class="keyword">await</span> crypto.subtle.digest(<span class="string">'SHA-256'</span>, msgBuffer);<br>
-                &nbsp;&nbsp;<span class="keyword">const</span> hashArray = Array.from(<span class="keyword">new</span> Uint8Array(hashBuffer));<br>
-                &nbsp;&nbsp;<span class="keyword">const</span> hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');<br>
-                &nbsp;&nbsp;<span class="keyword">return</span> hashHex;<br>
-                }<br>
-            </code>
-        </div>
+                <!-- Batch Processor Panel -->
+                <div class="content-panel" id="panel-batch">
+                    <h2>Batch Processor</h2>
+                    <p>Process files matching a specific pattern.</p>
+                    <div class="form-group">
+                        <label for="batch-input">File Pattern</label>
+                        <input type="text" id="batch-input" placeholder="/path/to/project/*.js">
+                    </div>
+                    <button class="execute-btn" data-action="batch">Process Batch</button>
+                </div>
 
-        <div class="grid">
-            <div class="card">
-                <h2>BIP39 Mnemonic</h2>
-                <p class="label">Generated from Entropy</p>
-                <p id="mnemonic" class="value">...</p>
-            </div>
-            <div class="card">
-                <h2>Base58 Encoding</h2>
-                <p class="label">Bitcoin Address Format</p>
-                <p id="base58" class="value">...</p>
-            </div>
-            <div class="card">
-                <h2>Dynamic Satoshi Value</h2>
-                <p class="label">Calculation from Hash</p>
-                <p id="sats" class="value">...</p>
-            </div>
-        </div>
+                <!-- Pipeline Panel -->
+                <div class="content-panel" id="panel-pipeline">
+                    <h2>Processing Pipeline</h2>
+                    <p>Scrape URLs or process files in a sequence. Separate entries with a colon (:).</p>
+                    <div class="form-group">
+                        <label for="pipeline-input">URLs or File Paths</label>
+                        <input type="text" id="pipeline-input" placeholder="https://example.com:/path/to/file.log">
+                    </div>
+                    <button class="execute-btn" data-action="pipeline">Run Pipeline</button>
+                </div>
 
-        <div class="footer">
-            <p>Cryptographic Demonstrator · Real-time Seed Generation</p>
+                <!-- Env Scanner Panel -->
+                <div class="content-panel" id="panel-env">
+                    <h2>Environment Scanner</h2>
+                    <p>Scan and display current environment variables and system information.</p>
+                    <button class="execute-btn" data-action="env">Scan Environment</button>
+                    <div class="response-area">
+                        <pre id="env-output"></pre>
+                    </div>
+                </div>
+                
+                <!-- AGI Watcher Panel -->
+                <div class="content-panel" id="panel-agi">
+                    <h2>AGI File System Watcher</h2>
+                    <p>Monitor a folder for file changes matching a pattern.</p>
+                    <div class="form-group">
+                        <label for="agi-folder">Folder to Watch</label>
+                        <input type="text" id="agi-folder" placeholder="/path/to/watch">
+                    </div>
+                     <div class="form-group">
+                        <label for="agi-pattern">File Pattern</label>
+                        <input type="text" id="agi-pattern" placeholder="*.*">
+                    </div>
+                    <button class="execute-btn" data-action="agi">Start Watching</button>
+                </div>
+
+            </main>
         </div>
+        <footer id="log-panel">
+            <div class="log-header">
+                <span>SYSTEM LOG</span>
+                <button id="clear-log-btn" title="Clear Log">✖</button>
+            </div>
+            <div id="log-content"></div>
+        </footer>
     </div>
+    <script type="module" src="index.tsx"></script>
 </body>
 </html>

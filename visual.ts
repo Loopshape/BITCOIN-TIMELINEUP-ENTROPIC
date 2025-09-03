@@ -102,15 +102,12 @@ export class GdmLiveAudioVisuals extends LitElement {
   }
 
   protected firstUpdated() {
-    // FIX: Replaced `this.shadowRoot` with `this.renderRoot` for compatibility with Lit and added a non-null assertion.
     this.canvas = this.renderRoot.querySelector('canvas')!;
     this.canvas.width = 400;
     this.canvas.height = 400;
-    // FIX: Added a non-null assertion as getContext can return null.
     this.canvasCtx = this.canvas.getContext('2d')!;
   }
 
-  // FIX: LitElement's `render` method must be public or protected, not private, to correctly override the base class method.
   protected render() {
     return html`<canvas></canvas>`;
   }

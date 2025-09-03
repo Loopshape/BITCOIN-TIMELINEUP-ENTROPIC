@@ -311,7 +311,6 @@ export class GdmLiveAudioVisuals3D extends LitElement {
   }
 
   protected firstUpdated() {
-    // FIX: Replaced `this.shadowRoot` with `this.renderRoot` for compatibility with Lit.
     this.canvas = this.renderRoot.querySelector('canvas') as HTMLCanvasElement;
     this.init();
   }

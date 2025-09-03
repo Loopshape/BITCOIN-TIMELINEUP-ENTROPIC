@@ -1,6 +1,6 @@
 {
-  "name": "Bitcoin Timestamp Entropy",
-  "description": "Experience real-time cryptographic seed generation from temporal data, visualizing the process from a simple timestamp to a BIP39 mnemonic phrase.",
+  "name": "AI System Diagnostics",
+  "description": "A 3D visualization of a futuristic AI system diagnostic interface, created with Three.js.",
   "prompt": "",
   "requestFramePermissions": []
 }
