@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitcoin Timestamp Entropy</title>
+<script type="importmap">
+{
+  "imports": {
+    "lit/": "https://aistudiocdn.com/lit@^3.3.1/",
+    "lit": "https://aistudiocdn.com/lit@^3.3.1",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.16.0",
+    "three/": "https://aistudiocdn.com/three@^0.179.1/",
+    "three": "https://aistudiocdn.com/three@^0.179.1"
+  }
+}
+</script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Bitcoin Timestamp Entropy</h1>
+            <p class="subtitle">Cryptographic Seed Generation from Temporal Data</p>
+        </header>
+
+        <div class="grid">
+            <div class="card">
+                <h2>Current Timestamp</h2>
+                <p class="label">MMDDYYHHMMSS Format</p>
+                <p id="timestamp" class="value pulse">...</p>
+            </div>
+            <div class="card">
+                <h2>SHA-256 Hash</h2>
+                <p class="label">Derived from Timestamp</p>
+                <p id="hash" class="value">...</p>
+            </div>
+            <div class="card">
+                <h2>Entropy Value</h2>
+                <p class="label">64-bit Hexadecimal</p>
+                <p id="entropy" class="value">...</p>
+            </div>
+            <div class="card">
+                <h2>Entropy Strength</h2>
+                <p class="label">Based on Bit Distribution</p>
+                <div class="strength-meter-container">
+                    <div id="strength-meter-bar" class="strength-meter-bar"></div>
+                </div>
+                <p id="strength-value" class="value" style="text-align: center; margin-top: 10px;">...</p>
+            </div>
+        </div>
+
+        <div class="visualization">
+            <h2>Entropy Visualization</h2>
+            <canvas id="entropyCanvas"></canvas>
+            <p class="label">Randomness Amplitude Over Time</p>
+        </div>
+
+        <div class="code-block">
+            <code>
+                <span class="comment">// Bitcoin timestamp entropy generation</span><br>
+                <span class="keyword">async function</span> <span class="function">generateEntropy</span>(timestamp) {<br>
+                &nbsp;&nbsp;<span class="keyword">const</span> hash = <span class="keyword">await</span> sha256(timestamp);<br>
+                &nbsp;&nbsp;<span class="keyword">const</span> entropy = hash.slice(0, 16); <span class="comment">// First 64 bits of the hash</span><br>
+                &nbsp;&nbsp;<span class="keyword">return</span> <span class="string">"0x"</span> + entropy.toUpperCase();<br>
+                }<br><br>
+                <span class="keyword">async function</span> <span class="function">sha256</span>(data) {<br>
+                &nbsp;&nbsp;<span class="comment">// Real cryptographic hash using Web Crypto API</span><br>
+                &nbsp;&nbsp;<span class="keyword">const</span> msgBuffer = <span class="keyword">new</span> TextEncoder().encode(data);<br>
+                &nbsp;&nbsp;<span class="keyword">const</span> hashBuffer = <span class="keyword">await</span> crypto.subtle.digest(<span class="string">'SHA-256'</span>, msgBuffer);<br>
+                &nbsp;&nbsp;<span class="keyword">const</span> hashArray = Array.from(<span class="keyword">new</span> Uint8Array(hashBuffer));<br>
+                &nbsp;&nbsp;<span class="keyword">const</span> hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');<br>
+                &nbsp;&nbsp;<span class="keyword">return</span> hashHex;<br>
+                }<br>
+            </code>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h2>BIP39 Mnemonic</h2>
+                <p class="label">Generated from Entropy</p>
+                <p id="mnemonic" class="value">...</p>
+            </div>
+            <div class="card">
+                <h2>Base58 Encoding</h2>
+                <p class="label">Bitcoin Address Format</p>
+                <p id="base58" class="value">...</p>
+            </div>
+            <div class="card">
+                <h2>Dynamic Satoshi Value</h2>
+                <p class="label">Calculation from Hash</p>
+                <p id="sats" class="value">...</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Cryptographic Demonstrator · Real-time Seed Generation</p>
+        </div>
+    </div>
+</body>
+</html>

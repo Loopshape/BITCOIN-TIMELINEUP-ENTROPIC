@@ -1,0 +1,6 @@
+{
+  "name": "Bitcoin Timestamp Entropy",
+  "description": "Experience real-time cryptographic seed generation from temporal data, visualizing the process from a simple timestamp to a BIP39 mnemonic phrase.",
+  "prompt": "",
+  "requestFramePermissions": []
+}
